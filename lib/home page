@@ -1,0 +1,1533 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const TouristApp());
+}
+
+class TouristApp extends StatelessWidget {
+  const TouristApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Tourist Places',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        scaffoldBackgroundColor: Colors.grey.shade100,
+      ),
+      home: const LoginScreen(),
+    );
+  }
+}
+
+// ================= LOGIN PAGE =================
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.teal.shade700,
+              Colors.teal.shade300,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(25),
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Column(
+                  children: [
+                    const Icon(
+                      Icons.travel_explore,
+                      size: 80,
+                      color: Colors.teal,
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      "Tourist Places",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      "Explore Beautiful Places",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: "Email",
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        prefixIcon: const Icon(Icons.lock),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          "LOGIN",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ================= HOME PAGE =================
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController searchController = TextEditingController();
+
+  final List<Map<String, String>> destinations = [
+    {
+      "name": "Taj Mahal",
+      "location": "Agra, Uttar Pradesh",
+      "image":
+          "https://images.unsplash.com/photo-1564507592333-c60657eea523",
+    },
+    {
+      "name": "Goa",
+      "location": "Goa, India",
+      "image":
+          "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2",
+    },
+    {
+      "name": "Manali",
+      "location": "Himachal Pradesh",
+      "image":
+          "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d",
+    },
+    {
+      "name": "Kerala",
+      "location": "Kerala, India",
+      "image":
+          "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944",
+    },
+    {
+      "name": "Jaipur",
+      "location": "Rajasthan, India",
+      "image":
+          "https://images.unsplash.com/photo-1599661046289-e31897846e41",
+    },
+    {
+      "name": "Kashmir",
+      "location": "Jammu & Kashmir",
+      "image":
+          "https://images.unsplash.com/photo-1566837497312-7be0a3112f5d",
+    },
+  ];
+
+  final Map<String, List<Map<String, String>>> categoryPlaces = {
+    "Historical": [
+      {
+        "name": "Taj Mahal",
+        "location": "Agra, Uttar Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1564507592333-c60657eea523",
+        "about":
+            "The Taj Mahal is a beautiful white marble monument and one of India's most famous historical attractions.",
+        "time": "October to March",
+        "attractions": "Taj Mahal, Yamuna River, Mughal Architecture",
+      },
+      {
+        "name": "Fort Aguada",
+        "location": "Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1",
+        "about":
+            "Fort Aguada is a historic Portuguese fort built in Goa with beautiful sea views.",
+        "time": "November to February",
+        "attractions": "Fort, Lighthouse, Arabian Sea View",
+      },
+      {
+        "name": "Amber Fort",
+        "location": "Jaipur, Rajasthan",
+        "image":
+            "https://images.unsplash.com/photo-1599661046289-e31897846e41",
+        "about":
+            "Amber Fort is a magnificent historical fort known for its architecture and royal history.",
+        "time": "October to March",
+        "attractions": "Palace, Fort Walls, Sheesh Mahal",
+      },
+    ],
+
+    "Beaches": [
+      {
+        "name": "Baga Beach",
+        "location": "North Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2",
+        "about":
+            "Baga Beach is one of Goa's most popular beaches, famous for water activities and nightlife.",
+        "time": "November to February",
+        "attractions": "Beach, Water Sports, Restaurants",
+      },
+      {
+        "name": "Calangute Beach",
+        "location": "Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+        "about":
+            "Calangute Beach is a popular destination known for its golden sand and beautiful sea.",
+        "time": "November to February",
+        "attractions": "Beach, Shopping, Water Sports",
+      },
+      {
+        "name": "Anjuna Beach",
+        "location": "North Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57",
+        "about":
+            "Anjuna Beach is famous for its scenic beauty, markets and relaxed atmosphere.",
+        "time": "November to February",
+        "attractions": "Beach, Flea Market, Sunset",
+      },
+    ],
+
+    "Hill Stations": [
+      {
+        "name": "Manali",
+        "location": "Himachal Pradesh, India",
+        "image":
+            "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d",
+        "about":
+            "Manali is a beautiful hill station surrounded by mountains, valleys and rivers.",
+        "time": "October to June",
+        "attractions": "Solang Valley, Mall Road, Rohtang Pass",
+      },
+      {
+        "name": "Rohtang Pass",
+        "location": "Near Manali, Himachal Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1544735716-392fe2489ffa",
+        "about":
+            "Rohtang Pass is a famous mountain pass offering snow-covered landscapes and adventure activities.",
+        "time": "May to October",
+        "attractions": "Snow, Mountains, Adventure Activities",
+      },
+      {
+        "name": "Gulmarg",
+        "location": "Kashmir, India",
+        "image":
+            "https://images.unsplash.com/photo-1605540436563-5bca919ae766",
+        "about":
+            "Gulmarg is a beautiful hill destination famous for snow, mountains and skiing.",
+        "time": "December to March",
+        "attractions": "Skiing, Gondola Ride, Snow Mountains",
+      },
+    ],
+
+    "Nature": [
+      {
+        "name": "Munnar",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944",
+        "about":
+            "Munnar is a beautiful hill destination surrounded by tea plantations and green mountains.",
+        "time": "September to May",
+        "attractions": "Tea Gardens, Waterfalls, Mountains",
+      },
+      {
+        "name": "Alleppey",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1593693397690-362cb9666fc2",
+        "about":
+            "Alleppey is famous for its peaceful backwaters and traditional houseboats.",
+        "time": "October to February",
+        "attractions": "Backwaters, Houseboats, Nature",
+      },
+      {
+        "name": "Dal Lake",
+        "location": "Srinagar, Kashmir",
+        "image":
+            "https://images.unsplash.com/photo-1566837497312-7be0a3112f5d",
+        "about":
+            "Dal Lake is a beautiful lake in Srinagar known for houseboats and Shikara rides.",
+        "time": "April to October",
+        "attractions": "Shikara Ride, Houseboats, Mountains",
+      },
+    ],
+
+    "Religious": [
+      {
+        "name": "Basilica of Bom Jesus",
+        "location": "Old Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1582510003544-4d00b7f74220",
+        "about":
+            "The Basilica of Bom Jesus is a famous historic church in Old Goa.",
+        "time": "November to February",
+        "attractions": "Church, Architecture, History",
+      },
+      {
+        "name": "Meenakshi Temple",
+        "location": "Madurai, Tamil Nadu",
+        "image":
+            "https://images.unsplash.com/photo-1606298855672-3efb63017be8",
+        "about":
+            "Meenakshi Temple is a famous Hindu temple known for its colourful architecture.",
+        "time": "October to March",
+        "attractions": "Temple, Sculptures, Architecture",
+      },
+      {
+        "name": "Vaishno Devi",
+        "location": "Jammu & Kashmir, India",
+        "image":
+            "https://images.unsplash.com/photo-1548013146-72479768bada",
+        "about":
+            "Vaishno Devi is one of India's most important pilgrimage destinations.",
+        "time": "March to June",
+        "attractions": "Temple, Mountains, Pilgrimage",
+      },
+    ],
+
+    "All Places": [
+      {
+        "name": "Taj Mahal",
+        "location": "Agra, Uttar Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1564507592333-c60657eea523",
+        "about":
+            "The Taj Mahal is one of the world's most famous monuments and a symbol of love.",
+        "time": "October to March",
+        "attractions": "Taj Mahal, Mughal Architecture, Yamuna River",
+      },
+      {
+        "name": "Goa",
+        "location": "Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2",
+        "about":
+            "Goa is famous for beaches, forts, churches, food and beautiful coastal scenery.",
+        "time": "November to February",
+        "attractions": "Beaches, Forts, Churches, Nightlife",
+      },
+      {
+        "name": "Manali",
+        "location": "Himachal Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d",
+        "about":
+            "Manali is a beautiful Himalayan destination with mountains, valleys and adventure activities.",
+        "time": "October to June",
+        "attractions": "Solang Valley, Rohtang Pass, Mall Road",
+      },
+      {
+        "name": "Kerala",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944",
+        "about":
+            "Kerala is known for its backwaters, greenery, beaches and hill stations.",
+        "time": "September to March",
+        "attractions": "Backwaters, Beaches, Tea Gardens",
+      },
+      {
+        "name": "Jaipur",
+        "location": "Rajasthan, India",
+        "image":
+            "https://images.unsplash.com/photo-1599661046289-e31897846e41",
+        "about":
+            "Jaipur is the Pink City of India and is famous for forts, palaces and royal heritage.",
+        "time": "October to March",
+        "attractions": "Amber Fort, City Palace, Hawa Mahal",
+      },
+      {
+        "name": "Kashmir",
+        "location": "Jammu & Kashmir",
+        "image":
+            "https://images.unsplash.com/photo-1566837497312-7be0a3112f5d",
+        "about":
+            "Kashmir is famous for beautiful valleys, lakes, mountains and peaceful landscapes.",
+        "time": "April to October",
+        "attractions": "Dal Lake, Gulmarg, Pahalgam",
+      },
+    ],
+  };
+
+  void openCategory(String category) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CategoryPlacesPage(
+          category: category,
+          places: categoryPlaces[category]!,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Explore Tourist Places",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
+      ),
+
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Where do you want to go? 🌍",
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: "Search destinations...",
+                  prefixIcon: const Icon(Icons.search),
+                  suffixIcon: const Icon(Icons.location_on),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              const Text(
+                "Categories",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // ================= CLICKABLE CATEGORIES =================
+
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    categoryButton(
+                      "Historical",
+                      Icons.account_balance,
+                    ),
+                    categoryButton(
+                      "Beaches",
+                      Icons.beach_access,
+                    ),
+                    categoryButton(
+                      "Hill Stations",
+                      Icons.terrain,
+                    ),
+                    categoryButton(
+                      "Nature",
+                      Icons.nature,
+                    ),
+                    categoryButton(
+                      "Religious",
+                      Icons.temple_hindu,
+                    ),
+                    categoryButton(
+                      "All Places",
+                      Icons.explore,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 25),
+
+              const Text(
+                "Popular Destinations ⭐",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: destinations.length,
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 0.78,
+                ),
+                itemBuilder: (context, index) {
+                  final place = destinations[index];
+
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DestinationPlacesPage(
+                            destination: place["name"]!,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Image.network(
+                              place["image"]!,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder:
+                                  (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
+                                    Icons.image,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  place["name"]!,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  "📍 ${place["location"]!}",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget categoryButton(String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(25),
+        onTap: () {
+          openCategory(title);
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+              color: Colors.teal,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                color: Colors.teal,
+                size: 20,
+              ),
+              const SizedBox(width: 7),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.teal,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ================= CATEGORY PAGE =================
+
+class CategoryPlacesPage extends StatelessWidget {
+  final String category;
+  final List<Map<String, String>> places;
+
+  const CategoryPlacesPage({
+    super.key,
+    required this.category,
+    required this.places,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          category,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
+      ),
+
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: places.length,
+        itemBuilder: (context, index) {
+          final data = places[index];
+
+          return InkWell(
+            borderRadius: BorderRadius.circular(15),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      TouristDetailsPage(data: data),
+                ),
+              );
+            },
+            child: Card(
+              margin: const EdgeInsets.only(bottom: 18),
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.network(
+                    data["image"]!,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) {
+                      return Container(
+                        height: 200,
+                        color: Colors.grey.shade300,
+                        child: const Center(
+                          child: Icon(
+                            Icons.image,
+                            size: 60,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data["name"]!,
+                          style: const TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          "📍 ${data["location"]!}",
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Text(
+                          data["about"]!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        const Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "View Details →",
+                              style: TextStyle(
+                                color: Colors.teal,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ================= DESTINATION PLACES PAGE =================
+
+class DestinationPlacesPage extends StatelessWidget {
+  final String destination;
+
+  const DestinationPlacesPage({
+    super.key,
+    required this.destination,
+  });
+
+  final Map<String, List<Map<String, String>>> destinationData = const {
+    "Goa": [
+      {
+        "name": "Baga Beach",
+        "location": "North Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2",
+        "about":
+            "Baga Beach is one of Goa's most popular beaches, famous for water sports, restaurants and nightlife.",
+        "time": "November to February",
+        "attractions":
+            "Water Sports, Beach Shacks, Sunset, Nightlife",
+      },
+      {
+        "name": "Calangute Beach",
+        "location": "Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+        "about":
+            "Calangute Beach is famous for its golden sand, clear water and exciting beach activities.",
+        "time": "November to February",
+        "attractions":
+            "Beach, Shopping, Water Sports, Restaurants",
+      },
+      {
+        "name": "Fort Aguada",
+        "location": "North Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1590050752117-238cb0fb12b1",
+        "about":
+            "Fort Aguada is a historic Portuguese fort with beautiful views of the Arabian Sea.",
+        "time": "November to February",
+        "attractions":
+            "Fort, Lighthouse, Sea View, Portuguese Architecture",
+      },
+      {
+        "name": "Anjuna Beach",
+        "location": "North Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57",
+        "about":
+            "Anjuna Beach is known for its scenic beauty, flea market and peaceful sunset views.",
+        "time": "November to February",
+        "attractions":
+            "Beach, Flea Market, Sunset, Water Sports",
+      },
+      {
+        "name": "Basilica of Bom Jesus",
+        "location": "Old Goa, India",
+        "image":
+            "https://images.unsplash.com/photo-1582510003544-4d00b7f74220",
+        "about":
+            "The Basilica of Bom Jesus is a famous historic church and an important tourist attraction in Goa.",
+        "time": "November to February",
+        "attractions":
+            "Church, Architecture, History, Religious Site",
+      },
+    ],
+
+    "Taj Mahal": [
+      {
+        "name": "Taj Mahal",
+        "location": "Agra, Uttar Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1564507592333-c60657eea523",
+        "about":
+            "The Taj Mahal is a magnificent white marble monument and one of India's most famous tourist attractions.",
+        "time": "October to March",
+        "attractions":
+            "Taj Mahal, Yamuna River, Mughal Architecture",
+      },
+      {
+        "name": "Agra Fort",
+        "location": "Agra, Uttar Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1585135497273-1a86b09fe70f",
+        "about":
+            "Agra Fort is a historic red sandstone fort known for its Mughal architecture.",
+        "time": "October to March",
+        "attractions":
+            "Fort, Mughal Architecture, Historical Buildings",
+      },
+      {
+        "name": "Mehtab Bagh",
+        "location": "Agra, Uttar Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1524498250077-390f9e378fc0",
+        "about":
+            "Mehtab Bagh is a beautiful garden located across the Yamuna River with views of the Taj Mahal.",
+        "time": "October to March",
+        "attractions":
+            "Garden, Taj Mahal View, Sunset",
+      },
+    ],
+
+    "Manali": [
+      {
+        "name": "Solang Valley",
+        "location": "Manali, Himachal Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d",
+        "about":
+            "Solang Valley is famous for snow, mountains and adventure activities.",
+        "time": "December to May",
+        "attractions":
+            "Snow, Paragliding, Cable Car, Mountains",
+      },
+      {
+        "name": "Rohtang Pass",
+        "location": "Manali, Himachal Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1544735716-392fe2489ffa",
+        "about":
+            "Rohtang Pass is a beautiful mountain pass known for snow-covered landscapes.",
+        "time": "May to October",
+        "attractions":
+            "Snow, Mountains, Adventure Activities",
+      },
+      {
+        "name": "Hadimba Temple",
+        "location": "Manali, Himachal Pradesh",
+        "image":
+            "https://images.unsplash.com/photo-1548013146-72479768bada",
+        "about":
+            "Hadimba Temple is an ancient wooden temple surrounded by beautiful cedar forests.",
+        "time": "March to June",
+        "attractions":
+            "Temple, Forest, Traditional Architecture",
+      },
+    ],
+
+    "Kerala": [
+      {
+        "name": "Munnar",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944",
+        "about":
+            "Munnar is a beautiful hill station famous for tea gardens, mountains and waterfalls.",
+        "time": "September to May",
+        "attractions":
+            "Tea Gardens, Mountains, Waterfalls",
+      },
+      {
+        "name": "Alleppey",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1593693397690-362cb9666fc2",
+        "about":
+            "Alleppey is famous for peaceful backwaters and traditional houseboat rides.",
+        "time": "October to February",
+        "attractions":
+            "Backwaters, Houseboats, Nature",
+      },
+      {
+        "name": "Kovalam Beach",
+        "location": "Kerala, India",
+        "image":
+            "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57",
+        "about":
+            "Kovalam is a beautiful beach destination known for its coastline and relaxing atmosphere.",
+        "time": "September to March",
+        "attractions":
+            "Beach, Lighthouse, Sunset",
+      },
+    ],
+
+    "Jaipur": [
+      {
+        "name": "Amber Fort",
+        "location": "Jaipur, Rajasthan",
+        "image":
+            "https://images.unsplash.com/photo-1599661046289-e31897846e41",
+        "about":
+            "Amber Fort is a magnificent historical fort known for royal architecture.",
+        "time": "October to March",
+        "attractions":
+            "Palace, Sheesh Mahal, Fort Walls",
+      },
+      {
+        "name": "Hawa Mahal",
+        "location": "Jaipur, Rajasthan",
+        "image":
+            "https://images.unsplash.com/photo-1477587458883-47145ed94245",
+        "about":
+            "Hawa Mahal is one of Jaipur's most famous landmarks, known for its unique window design.",
+        "time": "October to March",
+        "attractions":
+            "Architecture, Windows, City View",
+      },
+      {
+        "name": "City Palace",
+        "location": "Jaipur, Rajasthan",
+        "image":
+            "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33",
+        "about":
+            "City Palace is a grand royal complex showcasing Jaipur's history and culture.",
+        "time": "October to March",
+        "attractions":
+            "Palace, Museum, Royal Architecture",
+      },
+    ],
+
+    "Kashmir": [
+      {
+        "name": "Dal Lake",
+        "location": "Srinagar, Kashmir",
+        "image":
+            "https://images.unsplash.com/photo-1566837497312-7be0a3112f5d",
+        "about":
+            "Dal Lake is famous for its beautiful scenery, houseboats and Shikara rides.",
+        "time": "April to October",
+        "attractions":
+            "Shikara Ride, Houseboats, Mountains",
+      },
+      {
+        "name": "Gulmarg",
+        "location": "Kashmir, India",
+        "image":
+            "https://images.unsplash.com/photo-1605540436563-5bca919ae766",
+        "about":
+            "Gulmarg is a beautiful mountain destination famous for skiing and the Gondola ride.",
+        "time": "December to March",
+        "attractions":
+            "Skiing, Gondola Ride, Snow Mountains",
+      },
+      {
+        "name": "Pahalgam",
+        "location": "Kashmir, India",
+        "image":
+            "https://images.unsplash.com/photo-1595815771614-ade9d5d7f8c3",
+        "about":
+            "Pahalgam is a peaceful valley surrounded by mountains and green landscapes.",
+        "time": "April to October",
+        "attractions":
+            "Valleys, Rivers, Mountains, Nature",
+      },
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final places = destinationData[destination] ?? [];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "$destination Places",
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
+      ),
+
+      body: places.isEmpty
+          ? const Center(
+              child: Text(
+                "No places available",
+                style: TextStyle(fontSize: 20),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: places.length,
+              itemBuilder: (context, index) {
+                final data = places[index];
+
+                return InkWell(
+                  borderRadius: BorderRadius.circular(15),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TouristDetailsPage(data: data),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.only(bottom: 18),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        Image.network(
+                          data["image"]!,
+                          height: 200,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) {
+                            return Container(
+                              height: 200,
+                              color: Colors.grey.shade300,
+                              child: const Center(
+                                child: Icon(
+                                  Icons.image,
+                                  size: 60,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data["name"]!,
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Text(
+                                "📍 ${data["location"]!}",
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              Text(
+                                data["about"]!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "View Details →",
+                                    style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight:
+                                          FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+// ================= TOURIST DETAILS PAGE =================
+
+class TouristDetailsPage extends StatelessWidget {
+  final Map<String, String> data;
+
+  const TouristDetailsPage({
+    super.key,
+    required this.data,
+  });
+
+  // ================= VISIT TIMING POPUP =================
+
+  void showVisitTiming(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Text("🗓️ "),
+              Text(
+                "Visit Timing",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Best Time to Visit",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              Text(
+                data["time"]!,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              const Text(
+                "Recommended Visiting Hours",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 8),
+
+              const Text(
+                "9:00 AM - 6:00 PM",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("CLOSE"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          data["name"]!,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal,
+        foregroundColor: Colors.white,
+      ),
+
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              data["image"]!,
+              height: 280,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder:
+                  (context, error, stackTrace) {
+                return Container(
+                  height: 280,
+                  color: Colors.grey.shade300,
+                  child: const Center(
+                    child: Icon(
+                      Icons.image,
+                      size: 70,
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data["name"]!,
+                    style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // LOCATION
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius:
+                          BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "📍 Location",
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          data["location"]!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  // ABOUT
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade50,
+                      borderRadius:
+                          BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "📝 About the Place",
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          data["about"]!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  // ================= CLICKABLE BEST TIME =================
+
+                  GestureDetector(
+                    onTap: () {
+                      showVisitTiming(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade50,
+                        borderRadius:
+                            BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.orange.shade200,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "🗓️ Best Time to Visit",
+                            style: TextStyle(
+                              fontSize: 21,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          Text(
+                            data["time"]!,
+                            style: const TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          const Text(
+                            "Tap here to see visiting timing →",
+                            style: TextStyle(
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  // MAIN ATTRACTIONS
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.purple.shade50,
+                      borderRadius:
+                          BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "⭐ Main Attractions",
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Text(
+                          data["attractions"]!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  // BACK BUTTON
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text(
+                        "BACK",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
